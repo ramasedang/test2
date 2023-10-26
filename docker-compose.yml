@@ -1,0 +1,35 @@
+version: '3'
+services:
+  app:
+    container_name: api_nestjs
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - .env
+    command: yarn start:dev
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    container_name: db_nestjs
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+volumes:
+  mysqldata:
+    driver: local

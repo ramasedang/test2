@@ -1,0 +1,2 @@
+### Find All Pronvisi
+GET http://localhost:3000/pendaftaran/provinsi
